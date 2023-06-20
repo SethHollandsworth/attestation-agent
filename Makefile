@@ -53,7 +53,7 @@ ifeq ($(LIBC), musl)
     endif
     MUSL_ADD := $(shell rustup target add ${ARCH}-unknown-linux-musl)
     ifeq ($(DEBIANOS), true)
-        MUSL_INSTALL := $(shell sudo apt-get install -y musl-tools) 
+        MUSL_INSTALL := $(shell sudo apt-get install -y musl-tools)
     endif
 endif
 
@@ -75,7 +75,7 @@ endif
 
 ifeq ($(SOURCE_ARCH), $(filter $(SOURCE_ARCH), s390x ppc64le))
     ifeq ($(DEBIANOS), true)
-        PROTOC_BINARY_INSTALL := $(shell sudo apt-get install -y protobuf-compiler)  
+        PROTOC_BINARY_INSTALL := $(shell sudo apt-get install -y protobuf-compiler)
     endif
 endif
 
@@ -111,6 +111,12 @@ ifeq ($(KBC), offline_sev_kbc)
     endif
 endif
 
+ifeq ($(KBC), aa_kbc)
+    ifeq ($(ARCH), $(filter $(ARCH), s390x powerpc64le))
+        $(error ERROR: Offline SEV KBC does not support s390x and ppc64le architectures!)
+    endif
+endif
+
 ifneq ($(RUSTFLAGS_ARGS),)
     RUST_FLAGS := RUSTFLAGS="$(RUSTFLAGS_ARGS)"
 endif
@@ -126,7 +132,7 @@ build:
 
 TARGET := $(TARGET_DIR)/$(BIN_NAME)
 
-install: 
+install:
 	install -D -m0755 $(TARGET) $(DESTDIR)
 
 uninstall:

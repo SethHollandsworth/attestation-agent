@@ -24,6 +24,9 @@ pub mod cc_kbc;
 #[cfg(feature = "eaa_kbc")]
 pub mod eaa_kbc;
 
+#[cfg(feature = "aa_kbc")]
+pub mod aa_kbc;
+
 #[cfg(feature = "offline_fs_kbc")]
 pub mod offline_fs_kbc;
 
@@ -97,6 +100,14 @@ impl KbcModuleList {
                 Box::new(cc_kbc::Kbc::new(kbs_uri).unwrap())
             });
             mod_list.insert("cc_kbc".to_string(), instantiate_func);
+        }
+
+        #[cfg(feature = "aa_kbc")]
+        {
+            let instantiate_func: KbcInstantiateFunc = Box::new(|kbs_uri: String| -> KbcInstance {
+                Box::new(aa_kbc::Kbc::new(kbs_uri).unwrap())
+            });
+            mod_list.insert("aa_kbc".to_string(), instantiate_func);
         }
 
         #[cfg(feature = "offline_fs_kbc")]

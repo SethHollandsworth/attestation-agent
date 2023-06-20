@@ -33,6 +33,7 @@ default = ["sample_kbc", "ttrpc"]
 grpc = ["tonic", "prost", "tonic-build"]
 ttrpc = ["dep:ttrpc", "ttrpc-codegen", "protobuf"]
 sample_kbc = ["attestation_agent/sample_kbc"]
+aa_kbc = ["attestation_agent/aa_kbc"]
 cc_kbc = ["attestation_agent/cc_kbc", "attestation_agent/all-attesters"]
 
 # attester suites of cc-kbc
@@ -42,6 +43,7 @@ cc_kbc_az_snp_vtpm = ["attestation_agent/cc_kbc", "attestation_agent/az-snp-vtpm
 cc_kbc_snp = ["attestation_agent/cc_kbc", "attestation_agent/snp-attester"]
 
 eaa_kbc = ["attestation_agent/eaa_kbc"]
+aa_kbc = ["attestation_agent/aa_kbc"]
 offline_fs_kbc = ["attestation_agent/offline_fs_kbc"]
 offline_sev_kbc = ["attestation_agent/offline_sev_kbc"]
 online_sev_kbc = ["attestation_agent/online_sev_kbc"]

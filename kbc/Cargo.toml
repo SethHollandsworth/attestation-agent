@@ -45,6 +45,7 @@ snp-attester = ["kbs_protocol/snp-attester"]
 
 sample_kbc = []
 eaa_kbc = ["foreign-types"]
+aa_kbc = []
 offline_fs_kbc = []
 offline_sev_kbc = []
 online_sev_kbc = ["tonic", "sev", "prost", "uuid", "bincode", "tokio"]
