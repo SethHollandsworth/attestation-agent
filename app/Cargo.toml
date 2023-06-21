@@ -33,7 +33,6 @@ default = ["sample_kbc", "ttrpc"]
 grpc = ["tonic", "prost", "tonic-build"]
 ttrpc = ["dep:ttrpc", "ttrpc-codegen", "protobuf"]
 sample_kbc = ["attestation_agent/sample_kbc"]
-aa_kbc = ["attestation_agent/aa_kbc"]
 cc_kbc = ["attestation_agent/cc_kbc", "attestation_agent/all-attesters"]
 
 # attester suites of cc-kbc

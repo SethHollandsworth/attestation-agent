@@ -105,7 +105,7 @@ impl KbcModuleList {
         #[cfg(feature = "aa_kbc")]
         {
             let instantiate_func: KbcInstantiateFunc = Box::new(|kbs_uri: String| -> KbcInstance {
-                Box::new(aa_kbc::Kbc::new(kbs_uri).unwrap())
+                Box::new(aa_kbc::AzureKbc::new(kbs_uri))
             });
             mod_list.insert("aa_kbc".to_string(), instantiate_func);
         }

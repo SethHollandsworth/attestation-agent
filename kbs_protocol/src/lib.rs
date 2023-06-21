@@ -53,7 +53,7 @@ impl KbsProtocolWrapper {
         })
     }
 
-    fn generate_evidence(&self) -> Result<Attestation> {
+    pub fn generate_evidence(&self) -> Result<Attestation> {
         let key = self
             .tee_key
             .as_ref()
