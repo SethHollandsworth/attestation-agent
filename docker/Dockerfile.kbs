@@ -21,4 +21,4 @@ COPY --from=builder /usr/local/bin/attestation-agent /usr/local/bin/attestation-
 # CMD [ "/bin/sh" ]
 CMD ["attestation-agent", "--keyprovider_sock", "127.0.0.1:47777", "--getresource_sock", "127.0.0.1:48888"]
 
-EXPOSE 50000
+EXPOSE 47777 48888
