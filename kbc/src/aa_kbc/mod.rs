@@ -13,6 +13,7 @@ use async_trait::async_trait;
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::fs;
+use tonic;
 use tonic::codegen::http::Uri;
 use uuid::Uuid;
 
@@ -48,9 +49,10 @@ impl KbcInterface for AzureKbc {
     }
 
     async fn get_resource(&mut self, rid: ResourceUri) -> Result<Vec<u8>> {
-        match &rid.r#type[..] {
-            _ => self.get_resource_from_kbs(rid).await,
-        }
+        let report = self.get_resource_from_kbs(rid).await?;
+
+        let output = Vec::<u8>::new();
+        return Ok(output);
     }
 }
 
@@ -63,29 +65,22 @@ impl AzureKbc {
         }
     }
 
-    async fn query_kbs(&self, secret_type: String, secret_id: String) -> Result<Vec<u8>> {
+    async fn query_kbs(&self, secret_type: String, secret_id: String) -> Result<String> {
         // error out if the KBS URI does not begin with "Attestation:"
         if !self.kbs_uri.starts_with("Attestation:") {
             return Err(anyhow!("Invalid KBS URI."));
         }
 
         let uri = format!("http://{}", self.kbs_uri).parse::<Uri>()?;
-
+        let kbs_protocol = KbsProtocolWrapper::new()?;
         // get the SNP report from the KBS
-        let evidence = KbsProtocolWrapper::generate_evidence(&uri)?;
+        let evidence = KbsProtocolWrapper::generate_evidence(&kbs_protocol)?;
         let tee_evidence = evidence.tee_evidence;
-
-        let guid = Uuid::new_v4().as_hyphenated().to_string();
-
-        let payload_dict: HashMap<String, Vec<u8>> = bincode::deserialize(&tee_evidence)?;
-
-        Ok(payload_dict
-            .get(&guid)
-            .ok_or_else(|| anyhow!("Secret UUID not found."))?
-            .to_vec())
+        println!("tee_evidence: {:?}", tee_evidence);
+        Ok(tee_evidence)
     }
 
-    async fn get_resource_from_kbs(&self, rid: ResourceUri) -> Result<Vec<u8>> {
+    async fn get_resource_from_kbs(&self, rid: ResourceUri) -> Result<String> {
         self.query_kbs("resource".to_string(), rid.resource_path())
             .await
     }
