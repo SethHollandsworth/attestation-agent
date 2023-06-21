@@ -10,15 +10,15 @@ RUN apt-get update && apt-get install protobuf-compiler -y && \
 
 COPY . .
 
-RUN make KBC=aa_kbs && make install --prefix /usr/local
+RUN make KBC=aa_kbc && make install
 
-# FROM ubuntu:20.04
+FROM ubuntu:20.04
 
-# RUN apt-get update && apt install openssl -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt install openssl -y && rm -rf /var/lib/apt/lists/*
 
-# COPY --from=builder /usr/local/ /usr/local/
+COPY --from=builder /usr/local/bin/attestation-agent /usr/local/bin/attestation-agent
 
-CMD [ "/bin/sh" ]
-# CMD ["attestation-agent", "--keyprovider_sock", "127.0.0.1:47777", "--getresource_sock", "127.0.0.1:48888"]
+# CMD [ "/bin/sh" ]
+CMD ["attestation-agent", "--keyprovider_sock", "127.0.0.1:47777", "--getresource_sock", "127.0.0.1:48888"]
 
 EXPOSE 50000
