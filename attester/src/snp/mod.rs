@@ -12,7 +12,7 @@ use sev::firmware::host::types::CertTableEntry;
 use std::path::Path;
 
 pub fn detect_platform() -> bool {
-    Path::new("/sys/devices/platform/sev-guest").exists()
+    Path::new("/sys/devices/platform/sev-guest").exists() || Path::new("/dev/sev").exists()
 }
 
 #[derive(Serialize, Deserialize)]

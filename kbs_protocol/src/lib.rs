@@ -40,6 +40,8 @@ impl KbsProtocolWrapper {
     pub fn new() -> Result<KbsProtocolWrapper> {
         // Detect TEE type of the current platform.
         let tee_type = detect_tee_type();
+        // print the type of tee_type
+        println!("tee_type: {:?}", tee_type);
         // Create attester instance.
         let attester = tee_type.to_attester().ok();
 

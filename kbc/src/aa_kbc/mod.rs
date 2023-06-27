@@ -67,9 +67,9 @@ impl AzureKbc {
 
     async fn query_kbs(&self, secret_type: String, secret_id: String) -> Result<String> {
         // error out if the KBS URI does not begin with "Attestation:"
-        if !self.kbs_uri.starts_with("Attestation:") {
-            return Err(anyhow!("Invalid KBS URI."));
-        }
+        // if !self.kbs_uri.starts_with("Attestation:") {
+        //     return Err(anyhow!("Invalid KBS URI."));
+        // }
 
         let uri = format!("http://{}", self.kbs_uri).parse::<Uri>()?;
         let kbs_protocol = KbsProtocolWrapper::new()?;
